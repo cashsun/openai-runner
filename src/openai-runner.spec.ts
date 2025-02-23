@@ -16,6 +16,7 @@ const createActions: CreateActions = (context: any) => ({
         `Robot walked for ${secs} seconds`,
         context?.weather ? `in a ${context.weather} weather` : ""
       );
+      return {result: 'done'}
     },
     name: "walk",
     description: "instruct robot to walk for given seconds",
