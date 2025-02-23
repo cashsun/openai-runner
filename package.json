@@ -1,6 +1,6 @@
 {
   "name": "openai-runner",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple library to run local function driven by openai conversation",
   "repository": {
     "type": "git",
