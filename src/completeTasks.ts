@@ -61,7 +61,7 @@ const handleMessage = async (
       );
       console.log(
         clc.xterm(8)("Call result: "),
-        clc.yellowBright(fnResult ?? "[empty]"),
+        clc.yellowBright(fnResult? JSON.stringify(fnResult) : "[empty]"),
         "\n"
       );
       if (fnResult?.errorMessage) {
