@@ -1,6 +1,13 @@
 import { CreateActions, PromptBuilder, SetupOptions } from "types/setup";
 import { completeTasks } from "./completeTasks";
 
+/**
+ * Setup your openai model
+ * @param config Openai related options
+ * @param createActions function to return actions map
+ * @param buildPrompt function to generate the prompt
+ * @returns function that accepts your task string & action context
+ */
 export const setup = (
   config: SetupOptions,
   createActions: CreateActions,
