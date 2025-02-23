@@ -2,7 +2,10 @@
   "name": "openai-runner",
   "version": "1.0.0",
   "description": "A simple library to run local function driven by openai conversation",
-  "repository": "https://github.com/cashsun/openai-runner",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cashsun/openai-runner.git"
+  },
   "scripts": {
     "dev": "tsc && vite build --watch",
     "test": "vitest run",
