@@ -1,6 +1,6 @@
 {
   "name": "openai-runner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple library to run local function driven by openai conversation",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "build": "tsc && vite build",
     "lint:scripts": "eslint ./src --ext .ts"
   },
-  "main": "dist/index.cjs.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
