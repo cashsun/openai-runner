@@ -1,8 +1,9 @@
 import { ClientOptions } from 'openai';
 import { ChatCompletionCreateParamsNonStreaming, FunctionDefinition } from 'openai/resources';
 
-/** ActionResult can be used to signal step failure. 
- * Nevertheless your function should always at least return an empty object
+/** 
+ * ActionResult can be used to signal step failure by including errorMessage or throw exception. 
+ * Nevertheless your function can return anything or void
  * */
 export interface ActionResult {
     errorMessage?: string;
@@ -17,5 +18,5 @@ export type SetupOptions = ClientOptions & Pick<ChatCompletionCreateParamsNonStr
 };
 
 export type Action = FunctionDefinition & {
-    fn: (args: any) => ActionResult;
+    fn: (args: any) => ActionResult | any | void;
 }

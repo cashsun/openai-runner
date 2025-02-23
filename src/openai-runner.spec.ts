@@ -16,7 +16,6 @@ const createActions: CreateActions = (context: any) => ({
         `Robot walked for ${secs} seconds`,
         context?.weather ? `in a ${context.weather} weather` : ""
       );
-      return {};
     },
     name: "walk",
     description: "instruct robot to walk for given seconds",
@@ -36,7 +35,6 @@ const createActions: CreateActions = (context: any) => ({
         `Robot sat for ${secs} seconds`,
         context?.weather ? `in a ${context.weather} weather` : ""
       );
-      return {};
     },
     name: "sit",
     description: "instruct robot to sit for given seconds",
@@ -52,12 +50,15 @@ const createActions: CreateActions = (context: any) => ({
   },
 });
 
+const buildPrompt = (task: string, context: { weather: string }) => `
+This is your task: ${task}.
+
+* After finishing the tasks, tell user "Nice robot! And the weather is ${context.weather}" as the final message without anything else.
+`;
+
 describe("Openai runner", () => {
   it("can perform simple robot commands", { timeout: 60_000 }, async () => {
-    const buildPrompt = (task: string) => `
-        this is your task: ${task}.
-        * in your final message, say "Nice robot!"
-    `;
+
     const ai = setup(options, createActions, buildPrompt);
 
     await ai("ask the robot to walk for 2 minutes and sit for 1 hour", {

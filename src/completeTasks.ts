@@ -44,25 +44,26 @@ const handleMessage = async (
     return { message: message.content ?? "" };
   }
 
-//   manually calling all the recommended funcitons
-  if(message.tool_calls?.length) {
+  //   manually calling all the recommended funcitons
+  if (message.tool_calls?.length) {
     messages.push(message);
-    for(const toolCall of message.tool_calls){
-        console.log(clc.blueBright('Function: '), toolCall.function.name);
-        console.log(clc.blueBright('Params: '), toolCall.function.arguments);
-        const fnResult = await actions[toolCall.function.name]?.fn(JSON.parse(toolCall.function.arguments));
-        console.log(clc.yellowBright('Call result: '), fnResult, '\n');
-        if(fnResult?.errorMessage){
-            throw new Error(fnResult.errorMessage);
-        }
-        messages.push({
-            tool_call_id: toolCall.id,
-            role: 'tool',
-            content: JSON.stringify(fnResult)
-        });
+    for (const toolCall of message.tool_calls) {
+      console.log(clc.blueBright("Function: "), toolCall.function.name);
+      console.log(clc.blueBright("Params: "), toolCall.function.arguments);
+      const fnResult = await actions[toolCall.function.name]?.fn(
+        JSON.parse(toolCall.function.arguments)
+      );
+      console.log(clc.yellowBright("Call result: "), fnResult, "\n");
+      if (fnResult?.errorMessage) {
+        throw new Error(fnResult.errorMessage);
+      }
+      messages.push({
+        tool_call_id: toolCall.id,
+        role: "tool",
+        content: JSON.stringify(fnResult ?? []),
+      });
     }
   }
 
   return handleMessage(messages, actions, openai, options);
-
 };
