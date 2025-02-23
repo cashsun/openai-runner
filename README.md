@@ -11,8 +11,6 @@ Support Typescript out of box.
 ```javascript
 import { setup, SetupOptions,Action, CreateActions, Action } from 'openai-runner';
 
-import { describe, it } from "vitest";
-
 // demo config talking to local model llama 3.2
 const options: SetupOptions = {
   model: "hermes-3-llama-3.2-3b",
