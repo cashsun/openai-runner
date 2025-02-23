@@ -13,6 +13,6 @@ export const setup = (
       throw new Error(`Prompt length cannot exceed ${maxPromptLength}`);
     }
     const actions = createActions(context);
-    await completeTasks(prompt, config, actions);
+    return completeTasks(prompt, config, actions);
   };
 };

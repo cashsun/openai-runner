@@ -53,29 +53,32 @@ const createActions: CreateActions = (context: any) => ({
 const buildPrompt = (task: string, context: { weather: string }) => `
 This is your task: ${task}.
 
-* After finishing the tasks, tell user "Nice robot! And the weather is ${context.weather}" as the final message without anything else.
+* use provided tools to finish the task.
+* Upon finishing the task, chat to user "Nice robot! And the weather is ${context.weather}" as the final message without saying anything else.
 `;
 
 describe("Openai runner", () => {
   it("can perform simple robot commands", { timeout: 60_000 }, async () => {
     const ai = setup(options, createActions, buildPrompt);
 
-    await ai("ask the robot to walk for 2 minutes and sit for 1 hour", {
+    const result = await ai('Ask the robot to walk for 2 minutes and sit for 1 hour.', {
       weather: "sunny",
     });
+
+    console.log('result.message :>> ', result);
 
     /**
      * expected output
      *
      * Function:  walk
      * Params:  {"secs":120}
-     * Robot walked for 120 seconds in a sunny weather
-     * Call result:  undefined 
+     * Robot walked for 120 seconds in a sunny weather (from console.log)
+     * Call result:  [empty] 
      * 
      * Function:  sit
      * Params:  {"secs":360}
-     * Robot sat for [object Object] seconds in a sunny weather
-     * Call result:  undefined 
+     * Robot sat for [object Object] seconds in a sunny weather (from console.log)
+     * Call result:  [empty] 
      * 
      * Step finished. Final message from AI assistant: 
      * Nice robot! The weather is sunny.

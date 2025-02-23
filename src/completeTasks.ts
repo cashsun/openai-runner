@@ -38,8 +38,8 @@ const handleMessage = async (
   // exit condition
   if (message.role === "assistant" && !message.tool_calls?.length) {
     console.log(
-      clc.green("Step finished. Final message from AI assistant: \n "),
-      message.content
+      clc.xterm(8)("Step finished. Final message from AI assistant: \n "),
+      clc.greenBright(message.content ?? "[empty]")
     );
     return { message: message.content ?? "" };
   }
@@ -48,19 +48,29 @@ const handleMessage = async (
   if (message.tool_calls?.length) {
     messages.push(message);
     for (const toolCall of message.tool_calls) {
-      console.log(clc.blueBright("Function: "), toolCall.function.name);
-      console.log(clc.blueBright("Params: "), toolCall.function.arguments);
+      console.log(
+        clc.xterm(8)("Function: "),
+        clc.greenBright(toolCall.function.name)
+      );
+      console.log(
+        clc.xterm(8)("Params: "),
+        clc.greenBright(toolCall.function.arguments)
+      );
       const fnResult = await actions[toolCall.function.name]?.fn(
         JSON.parse(toolCall.function.arguments)
       );
-      console.log(clc.yellowBright("Call result: "), fnResult, "\n");
+      console.log(
+        clc.xterm(8)("Call result: "),
+        clc.yellowBright(fnResult ?? "[empty]"),
+        "\n"
+      );
       if (fnResult?.errorMessage) {
         throw new Error(fnResult.errorMessage);
       }
       messages.push({
         tool_call_id: toolCall.id,
         role: "tool",
-        content: JSON.stringify(fnResult ?? []),
+        content: JSON.stringify(fnResult ?? {}),
       });
     }
   }
