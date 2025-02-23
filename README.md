@@ -60,7 +60,7 @@ await ai('Ask the robot to walk for 2 minutes and sit for 1 hour.', {
 
 ```
 
-```shell
+```
  # expected output
 
 Function:  walk
