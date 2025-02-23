@@ -1,0 +1,50 @@
+{
+  "name": "openai-runner",
+  "version": "1.0.0",
+  "description": "A simple library to run local function driven by openai conversation",
+  "repository": "https://github.com/cashsun/openai-runner",
+  "scripts": {
+    "dev": "tsc && vite build --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "vite --host --open",
+    "build": "tsc && vite build",
+    "lint:scripts": "eslint ./src --ext .ts"
+  },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/cli-color": "2.0.6",
+    "@types/node": "22.13.5",
+    "@typescript-eslint/eslint-plugin": "8.24.1",
+    "@typescript-eslint/parser": "8.24.1",
+    "dts-bundle-generator": "9.5.1",
+    "eslint": "9.21.0",
+    "eslint-config-prettier": "10.0.1",
+    "eslint-plugin-prettier": "5.2.3",
+    "prettier": "3.5.2",
+    "tslib": "2.8.1",
+    "typescript": "5.7.3",
+    "vite": "6.1.1",
+    "vite-plugin-dts": "4.5.0",
+    "vitest": "3.0.6"
+  },
+  "keywords": [
+    "vite",
+    "openai",
+    "typescript",
+    "npm",
+    "package"
+  ],
+  "author": "Cash Sun",
+  "license": "MIT",
+  "dependencies": {
+    "cli-color": "2.0.4",
+    "openai": "4.85.3"
+  }
+}
