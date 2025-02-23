@@ -18,5 +18,6 @@ export type SetupOptions = ClientOptions & Pick<ChatCompletionCreateParamsNonStr
 };
 
 export type Action = FunctionDefinition & {
-    fn: (args: any) => ActionResult | any | void;
+    /** args must be of one object */
+    fn: (args?: object) => ActionResult | any | void;
 }
