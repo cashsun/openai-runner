@@ -10,6 +10,13 @@ export const completeTasks = async (
 ) => {
   const openai = new OpenAI(config);
   const firstMessages: ChatCompletionMessageParam[] = [
+    config.systemRole
+      ? config.systemRole
+      : {
+          role: "system",
+          content:
+            "You are an automation tool focusing on finishing user speficied tasks using provided tools.",
+        },
     { role: "user", content: prompt },
   ];
   return handleMessage(firstMessages, actions, openai, config);
@@ -61,7 +68,7 @@ const handleMessage = async (
       );
       console.log(
         clc.xterm(8)("Call result: "),
-        clc.yellowBright(fnResult? JSON.stringify(fnResult) : "[empty]"),
+        clc.yellowBright(fnResult ? JSON.stringify(fnResult) : "[empty]"),
         "\n"
       );
       if (fnResult?.errorMessage) {
