@@ -54,7 +54,6 @@ const createActions: CreateActions = (context: any) => ({
 const buildPrompt = (task: string, context: { weather: string }) => `
 This is your task: ${task}.
 
-* use provided tools to finish the task.
 * Upon finishing the task, chat to user "Nice robot! And the weather is ${context.weather}" as the final message without saying anything else.
 `;
 
