@@ -11,7 +11,7 @@ const options: SetupOptions = {
 
 const createActions: CreateActions = (context: any) => ({
   walk: {
-    fn: ({ secs }: { secs: number }) => {
+    fn: async ({ secs }: { secs: number }) => {
       console.log(
         `Robot walked for ${secs} seconds`,
         context?.weather ? `in a ${context.weather} weather` : ""
@@ -51,7 +51,7 @@ const createActions: CreateActions = (context: any) => ({
   } as Action,
 });
 
-const buildPrompt = (task: string, context: { weather: string }) => `
+const buildPrompt = async (task: string, context: { weather: string }) => `
 This is your task: ${task}.
 
 * Upon finishing the task, chat to user "Nice robot! And the weather is ${context.weather}" as the final message without saying anything else.
