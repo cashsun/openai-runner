@@ -14,7 +14,7 @@ export interface ActionResult {
 }
 
 export type CreateActions = (context: any) => Record<string, Action>;
-export type PromptBuilder = (task: string, context: any) => string;
+export type PromptBuilder = (task: string, context: any) => Promise<string> | string;
 
 export type SetupOptions = ClientOptions &
   Pick<ChatCompletionCreateParamsNonStreaming, "model"> & {
@@ -26,5 +26,5 @@ export type SetupOptions = ClientOptions &
 
 export type Action = FunctionDefinition & {
   /** args must be of one object */
-  fn: (args?: object) => ActionResult | any | void;
+  fn: (args?: object) => Promise<ActionResult | any | void> | ActionResult | any | void;
 };

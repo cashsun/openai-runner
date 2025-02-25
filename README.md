@@ -9,7 +9,7 @@ Support Typescript out of box.
 ## Simple Use Case
 
 ```javascript
-import { setup, SetupOptions,Action, CreateActions, Action } from 'openai-runner';
+import { setup, SetupOptions, Action, CreateActions, Action } from 'openai-runner';
 
 // demo config talking to local model llama 3.2
 const options: SetupOptions = {
@@ -24,7 +24,8 @@ const options: SetupOptions = {
 const createActions: CreateActions = (context: any) => {
     return {
         walk: {
-            fn: ({ secs }: { secs: number }) => {
+            // actions can be async 
+            fn: async ({ secs }: { secs: number }) => {
                 console.log(
                     `Robot walked for ${secs} seconds in a ${context.weather} weather`
                 );
@@ -45,6 +46,7 @@ const createActions: CreateActions = (context: any) => {
     }
 }
 
+// prompt builder can also be async
 const buildPrompt = (task: string, context: { weather: string }) => `
     This is your task: ${task}.
 
@@ -65,12 +67,14 @@ await ai('Ask the robot to walk for 2 minutes and sit for 1 hour.', {
 
 Function:  walk
 Params:  {"secs":120}
-Robot walked for 120 seconds in a sunny weather (from console.log)
+# console.log
+Robot walked for 120 seconds in a sunny weather
 Call result:  [empty]
 
 Function:  sit
 Params:  {"secs":3600}
-Robot sat for 3600 seconds in a sunny weather (from console.log)
+# console.log
+Robot sat for 3600 seconds in a sunny weather
 Call result:  [empty]
 
 Step finished. Final message from AI assistant:
