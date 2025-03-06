@@ -2,6 +2,7 @@ import OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources";
 import clc from "cli-color";
 import { Action, SetupOptions } from "types/setup";
+import { pick } from "lodash-es";
 
 export const completeTasks = async (
   prompt: string,
@@ -15,7 +16,7 @@ export const completeTasks = async (
       : {
           role: "system",
           content:
-            "You are an automation tool focusing on finishing user speficied tasks using provided tools.",
+            "You are an automation tool focusing on finishing user speficied tasks only using provided tools. ",
         },
     { role: "user", content: prompt },
   ];
@@ -47,6 +48,15 @@ const handleMessage = async (
     console.log(
       clc.xterm(8)("Step finished. Final message from AI assistant: \n "),
       clc.greenBright(message.content ?? "[empty]")
+    );
+    console.log(`\n\n${clc.yellowBright("$$$ Token Usage")}`);
+    console.table(
+      pick(
+        firstResponse.usage,
+        "prompt_tokens",
+        "completion_tokens",
+        "total_tokens"
+      )
     );
     return { message: message.content ?? "" };
   }

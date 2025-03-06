@@ -1,8 +1,8 @@
 import { ClientOptions } from "openai";
 import {
-  ChatCompletionMessageParam,
   ChatCompletionCreateParamsNonStreaming,
   FunctionDefinition,
+  ChatCompletionSystemMessageParam,
 } from "openai/resources";
 
 /**
@@ -21,10 +21,10 @@ export type SetupOptions = ClientOptions &
     /** defaults to 2000 */
     maxPromptLength?: number;
     /** append system role message to have better control */
-    systemRole?: ChatCompletionMessageParam;
+    systemRole?: ChatCompletionSystemMessageParam;
   };
 
 export type Action = FunctionDefinition & {
   /** args must be of one object */
-  fn: (args?: object) => Promise<ActionResult | any | void> | ActionResult | any | void;
+  fn: (args?: any) => Promise<ActionResult | any | void> | ActionResult | any | void;
 };
