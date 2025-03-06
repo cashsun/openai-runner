@@ -1,11 +1,11 @@
-import { Action, CreateActions, SetupOptions } from "types/setup";
+import { CreateActions, SetupOptions } from "types/setup";
 import { setup } from "./setup";
 import { describe, it } from "vitest";
 
-// example config talking to LM studio local model llama 3.2
+// example config talking to LM studio local model
 const options: SetupOptions = {
-  model: "hermes-3-llama-3.2-3b",
-  baseURL: "http://localhost:1234/v1/",
+  model: "hermes-3-llama-3.1-8b",
+  baseURL: "http://office-pc:1234/v1/",
   apiKey: "",
 };
 
@@ -29,7 +29,7 @@ const createActions: CreateActions = (context: any) => ({
         },
       },
     },
-  } as Action,
+  },
   sit: {
     fn: ({ secs }: { secs: number }) => {
       console.log(
@@ -48,13 +48,14 @@ const createActions: CreateActions = (context: any) => ({
         },
       },
     },
-  } as Action,
+  },
 });
 
 const buildPrompt = async (task: string, context: { weather: string }) => `
 This is your task: ${task}.
 
-* Upon finishing the task, chat to user "Nice robot! And the weather is ${context.weather}" as the final message without saying anything else.
+* Upon finishing the task, respond to user "Nice robot! And the weather is ${context.weather}" as 
+the final message. Don't saying anything else.
 `;
 
 describe("Openai runner", () => {

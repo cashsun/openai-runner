@@ -17,7 +17,7 @@ export const setup = (
     const prompt = await buildPrompt(task, context);
     const maxPromptLength = config.maxPromptLength ?? 2000;
     if (prompt.length > maxPromptLength) {
-      throw new Error(`Prompt length cannot exceed ${maxPromptLength}`);
+      throw new Error(`Prompt character length cannot exceed ${maxPromptLength}. Update your setup config to increase the limit.`);
     }
     const actions = createActions(context);
     return completeTasks(prompt, config, actions);
