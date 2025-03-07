@@ -80,6 +80,60 @@ Call result:  [empty]
 Step finished. Final message from AI assistant:
 Nice robot! The weather is sunny.
 
+$$$ Token Usage
+┌───────────────────┬────────┐
+│ (index)           │ Values │
+├───────────────────┼────────┤
+│ prompt_tokens     │ 79     │
+│ completion_tokens │ 157    │
+│ total_tokens      │ 236    │
+└───────────────────┴────────┘
+
+```
+
+You can also provide a system prompt so you don't need to send detailed instructions everytime.
+Optionally you can leave action creater as undefined to skip the function calling completely.
+```javascript
+const ai = setup(
+        { ...options, systemPrompt: "You are a code generator. Only output code block without extra info." },
+        undefined,
+        (task) => task
+      );
+
+await ai(
+    "Write a dummy js code to instruct a robot to walk for 5 mins.",
+    { weather: "rainy" }
+);
+
+```
+
+```
+ # expected output
+
+    ```javascript
+        function startRobotWalk() {
+          console.log("Starting the robot's walking routine...");
+          
+          let walkingDuration = 300000; // Duration in milliseconds (5 minutes)
+          setTimeout(endWalkingRoutine, walkingDuration);
+        }
+
+        function endWalkingRoutine() {
+          console.log("The robot has finished its 5-minute walk.");
+        }
+
+        startRobotWalk();
+    ```
+
+$$$ Token Usage
+┌───────────────────┬────────┐
+│ (index)           │ Values │
+├───────────────────┼────────┤
+│ prompt_tokens     │ 44     │
+│ completion_tokens │ 131    │
+│ total_tokens      │ 175    │
+└───────────────────┴────────┘
+
 ```
 
 ## Installation

@@ -20,8 +20,8 @@ export type SetupOptions = ClientOptions &
   Pick<ChatCompletionCreateParamsNonStreaming, "model"> & {
     /** defaults to 2000 */
     maxPromptLength?: number;
-    /** append system role message to have better control */
-    systemRole?: ChatCompletionSystemMessageParam;
+    /** prepend system role message to have better control */
+    systemPrompt?: string;
   };
 
 export type Action = FunctionDefinition & {

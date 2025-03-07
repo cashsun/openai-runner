@@ -2,22 +2,21 @@ import OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources";
 import clc from "cli-color";
 import { Action, SetupOptions } from "types/setup";
-import { pick } from "lodash-es";
+import { isEmpty, pick } from "lodash-es";
 
 export const completeTasks = async (
   prompt: string,
   config: SetupOptions,
-  actions: Record<string, Action>
+  actions: Record<string, Action> | undefined
 ) => {
   const openai = new OpenAI(config);
   const firstMessages: ChatCompletionMessageParam[] = [
-    config.systemRole
-      ? config.systemRole
-      : {
-          role: "system",
-          content:
-            "You are an automation tool focusing on finishing user speficied tasks only using provided tools. ",
-        },
+    {
+      role: "system",
+      content:
+        config.systemPrompt ??
+        "You are an automation tool focusing on finishing user speficied tasks using tools & functions, if provided. ",
+    },
     { role: "user", content: prompt },
   ];
   return handleMessage(firstMessages, actions, openai, config);
@@ -25,26 +24,32 @@ export const completeTasks = async (
 
 const handleMessage = async (
   messages: ChatCompletionMessageParam[],
-  actions: Record<string, Action>,
+  actions: Record<string, Action> | undefined,
   openai: OpenAI,
   options: SetupOptions
 ) => {
+  const hasActions = !isEmpty(actions);
   const firstResponse = await openai.chat.completions.create({
     model: options.model,
     messages,
-    tools: Object.values(actions).map(({ fn, ...rest }) => {
-      return {
-        type: "function",
-        function: {
-          ...rest,
-        },
-      };
-    }),
+    tools: hasActions
+      ? Object.values(actions).map(({ fn, ...rest }) => {
+          return {
+            type: "function",
+            function: {
+              ...rest,
+            },
+          };
+        })
+      : undefined,
   });
   const message = firstResponse.choices[0].message;
 
   // exit condition
-  if (message.role === "assistant" && !message.tool_calls?.length) {
+  if (
+    message.role === "assistant" &&
+    (!message.tool_calls?.length || !hasActions)
+  ) {
     console.log(
       clc.xterm(8)("Step finished. Final message from AI assistant: \n "),
       clc.greenBright(message.content ?? "[empty]")
@@ -62,7 +67,7 @@ const handleMessage = async (
   }
 
   //   manually calling all the recommended funcitons
-  if (message.tool_calls?.length) {
+  if (message.tool_calls?.length && hasActions) {
     messages.push(message);
     for (const toolCall of message.tool_calls) {
       console.log(
