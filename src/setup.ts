@@ -10,7 +10,7 @@ import { completeTasks } from "./completeTasks";
  */
 export const setup = (
   config: SetupOptions,
-  createActions: CreateActions,
+  createActions: CreateActions | undefined,
   buildPrompt: PromptBuilder
 ) => {
   return  async (task: string, context?: any) => {
@@ -19,7 +19,7 @@ export const setup = (
     if (prompt.length > maxPromptLength) {
       throw new Error(`Prompt character length cannot exceed ${maxPromptLength}. Update your setup config to increase the limit.`);
     }
-    const actions = createActions(context);
+    const actions = createActions?.(context);
     return completeTasks(prompt, config, actions);
   };
 };
