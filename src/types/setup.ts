@@ -27,4 +27,7 @@ export type SetupOptions = ClientOptions &
 export type Action = FunctionDefinition & {
   /** args must be of one object */
   fn: (args?: any) => Promise<ActionResult | any | void> | ActionResult | any | void;
+  /** optional parse function to parse the suggested function parameters,
+   *  useful when pre-validating (e.g. using zod) the params before calling the function  */
+  parse?: (args: string) => any
 };

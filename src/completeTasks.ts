@@ -33,7 +33,7 @@ const handleMessage = async (
     model: options.model,
     messages,
     tools: hasActions
-      ? Object.values(actions).map(({ fn, ...rest }) => {
+      ? Object.values(actions).map(({ fn, parse, ...rest }) => {
           return {
             type: "function",
             function: {
@@ -78,8 +78,9 @@ const handleMessage = async (
         clc.xterm(8)("Params: "),
         clc.greenBright(toolCall.function.arguments)
       );
-      const fnResult = await actions[toolCall.function.name]?.fn(
-        JSON.parse(toolCall.function.arguments)
+      const actionDef = actions[toolCall.function.name];
+      const fnResult = await actionDef?.fn(
+         (actionDef.parse ?? JSON.parse)(toolCall.function.arguments)
       );
       console.log(
         clc.xterm(8)("Call result: "),

@@ -1,6 +1,7 @@
 import { CreateActions, SetupOptions } from "types/setup";
 import { setup } from "./setup";
 import { describe, it } from "vitest";
+import { z } from "zod";
 
 // example config talking to LM studio local model
 const options: SetupOptions = {
@@ -38,6 +39,14 @@ const createActions: CreateActions = (context: any) => ({
       );
     },
     name: "sit",
+    // pre validate suggested args by AI to fail fast
+    parse: (args: string) => {
+      return z
+        .object({
+          secs: z.number(),
+        })
+        .parse(JSON.parse(args));
+    },
     description: "instruct robot to sit for given seconds",
     parameters: {
       type: "object",
@@ -103,7 +112,11 @@ describe("Openai runner", () => {
     { timeout: 60_000 },
     async () => {
       const ai = setup(
-        { ...options, systemPrompt: "You are a code generator. Only output code block without extra info." },
+        {
+          ...options,
+          systemPrompt:
+            "You are a code generator. Only output code block without extra info.",
+        },
         undefined,
         (task) => task
       );
@@ -114,7 +127,7 @@ describe("Openai runner", () => {
       );
     }
 
-     /**
+    /**
      * expected output
      *
      * 
@@ -134,6 +147,5 @@ describe("Openai runner", () => {
       ```
      * 
      */
-
   );
 });

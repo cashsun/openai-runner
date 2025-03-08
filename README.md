@@ -30,6 +30,12 @@ const createActions: CreateActions = (context: any) => {
                     `Robot walked for ${secs} seconds in a ${context.weather} weather`
                 );
             },
+            // [OPTIONAL] pre validate suggested args by AI to fail fast
+            parse: (args: string) =>{
+                return z.object({
+                    secs: z.number()
+                }).parse(JSON.parse(args));
+            },
             name: "walk",
             description: "instruct robot to walk for given seconds",
             parameters: {
